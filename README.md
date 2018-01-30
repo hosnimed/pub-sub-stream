@@ -28,6 +28,7 @@ $ mvn spring-boot:run -Dspring.profiles.active=kafka
 1. Add Pojo Support
 2. Add Docker Compose file for Kafka/Redis
 3. Add Support to ActiveMQ Artemis 2.4.0 through [Artemis binder](https://github.com/snowdrop/spring-cloud-stream-binder-artemis)
+4. [Optional] Upgrade to Spring Boot 2.0.0.M7 and Kafka Client 1.0.0
 
 # References
 
