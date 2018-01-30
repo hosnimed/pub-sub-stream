@@ -1,0 +1,33 @@
+server:
+  port: 0
+
+spring:
+  profiles:
+    active: rabbit
+
+---
+spring:
+  profiles: rabbit
+  cloud:
+    stream:
+      bindings:
+        input :
+         destination: sourceRabbit
+         binder: rabbit
+        output :
+         destination: transformedRabbit
+         binder: rabbit
+
+
+---
+spring:
+  profiles: kafka
+  cloud:
+    stream:
+      bindings:
+        input :
+         destination: sourceKafka
+         binder: kafka
+        output :
+         destination: transformedKafka
+         binder: kafka
