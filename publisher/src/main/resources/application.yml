@@ -1,0 +1,28 @@
+spring:
+  profiles:
+    active: rabbit
+
+---
+spring:
+  profiles: rabbit
+  cloud:
+    stream:
+      bindings:
+        source :
+         destination: sourceRabbit
+         binder: rabbit
+
+server:
+  port: 8081
+
+---
+spring:
+  profiles: kafka
+  cloud:
+    stream:
+      bindings:
+        source :
+         destination: sourceKafka
+         binder: kafka
+server:
+  port: 8082
