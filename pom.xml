@@ -3,24 +3,24 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.sbm.cloudstream</groupId>
-	<artifactId>pub-sub-stream</artifactId>
+	<groupId>com.sbm.cloud.stream.reactive</groupId>
+	<artifactId>pub-sub-stream-reactive</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>pub-sub-stream</name>
-	<description>Demo project for Spring Cloud Stream (Source => Processor => Sink)</description>
-	
+	<name>pub-sub-stream-reactive</name>
+	<description>Demo project for Spring Boot 2.0..0.RC1 and Spring Cloud Stream (Source => Processor => Sink)</description>
+
 	<modules>
-        <module>publisher</module>
-        <module>processor</module>
-        <module>subscriber</module>
-    </modules>
+		<module>publisher</module>
+		<module>processor</module>
+		<module>subscriber</module>
+	</modules>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.9.RELEASE</version>
+		<version>2.0.0.RC1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -28,67 +28,32 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<spring-cloud-stream.version>Ditmars.RC1</spring-cloud-stream.version>
-		<spring-kafka.version>1.2.0.RELEASE</spring-kafka.version>
+		<spring-cloud.version>Finchley.BUILD-SNAPSHOT</spring-cloud.version>
+		<spring-kafka.version>2.1.2.RELEASE</spring-kafka.version>
+		<kafka-client.version>1.0.0</kafka-client.version>
 	</properties>
 
+	<dependencies>
 
-		<dependencies>
-
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-stream</artifactId>
-			</dependency>
-
-			<!--Spring Integration-->
-<!--
-			<dependency>
-				<groupId>org.springframework.integration</groupId>
-				<artifactId>spring-integration-amqp</artifactId>
-				<version>5.0.0.RC1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.integration</groupId>
-				<artifactId>spring-integration-kafka</artifactId>
-				<version>3.0.0.M2</version>
-			</dependency>
--->
-
-		<!--Binder Rabbit-->
-		<!--<dependency>
+		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-stream-rabbit</artifactId>
-		</dependency>-->
+			<artifactId>spring-cloud-stream-binder-kafka</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-stream-binder-rabbit</artifactId>
 		</dependency>
 
-		<!--Binder Kafka-->
-		<!--<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-stream-kafka</artifactId>
-		</dependency>-->
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-stream-binder-kafka</artifactId>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+			<version>${spring-kafka.version}</version>
 		</dependency>
 
-			<dependency>
-				<groupId>org.apache.kafka</groupId>
-				<artifactId>kafka-clients</artifactId>
-				<version>0.10.2.0</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.springframework.kafka</groupId>
-				<artifactId>spring-kafka</artifactId>
-				<version>${spring-kafka.version}</version>
-			</dependency>
-
-			<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+		<dependency>
+			<groupId>org.apache.kafka</groupId>
+			<artifactId>kafka-clients</artifactId>
+			<version>${kafka-client.version}</version>
 		</dependency>
 
 		<dependency>
@@ -97,27 +62,24 @@
 			<optional>true</optional>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-stream</artifactId>
-				<version>${spring-cloud-stream.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-stream-dependencies</artifactId>
-				<version>${spring-cloud-stream.version}</version>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
 
 	<build>
 		<plugins>
