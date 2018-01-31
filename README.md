@@ -13,6 +13,11 @@
 - RabbitMQ
 - Apache Kafka Client 0.10.2 
 
+#Pipeline Overview
+- The following figure describe the global overview of the pipeline 
+
+![Pipeline Overview](./pipeline-overview.png "Pipeline Overview")
+
 # Run the project with `rabbit` profile
 
 ```sh
@@ -28,7 +33,7 @@ $ mvn spring-boot:run -Dspring.profiles.active=kafka
 1. Add Pojo Support
 2. Add Docker Compose file for Kafka/Redis
 3. Add Support to ActiveMQ Artemis 2.4.0 through [Artemis binder](https://github.com/snowdrop/spring-cloud-stream-binder-artemis)
-4. [Optional] Upgrade to Spring Boot 2.0.0.M7 and Kafka Client 1.0.0
+4. [Optional] Upgrade to Spring Boot 2.0.0.RC1 and Kafka Client 1.0.0
 
 # References
 
