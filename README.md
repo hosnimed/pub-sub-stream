@@ -13,7 +13,7 @@
 - RabbitMQ
 - Apache Kafka Client 0.10.2 
 
-#Pipeline Overview
+# Pipeline Overview
 - The following figure describe the global overview of the pipeline 
 
 ![Pipeline Overview](./pipeline-overview.png "Pipeline Overview")
