@@ -14,10 +14,32 @@ spring:
         input :
          destination: sourceRabbit
          binder: rabbit
+         group: text
         output :
          destination: transformedRabbit
          binder: rabbit
+         group: transformedText
 
+      rabbit:
+        binder:
+#          nodes: 192.168.163.210; localhost
+        bindings:
+          input:
+            consumer:
+              durableSubscription: true
+              declareExchange: true
+              exchangeDurable: true
+              exchangeType: topic
+            producer:
+              durableSubscription: true
+              declareExchange: true
+              exchangeDurable: true
+              exchangeType: topic
+
+  rabbitmq:
+    host: 192.168.163.210
+    password: rabbitmq
+    username: rabbitmq
 
 ---
 spring:
@@ -28,6 +50,30 @@ spring:
         input :
          destination: sourceKafka
          binder: kafka
+         group: text
         output :
          destination: transformedKafka
          binder: kafka
+         group: transformedText
+
+      kafka:
+        binder:
+          brokers: localhost
+          defaultBrokerPort: 9092
+          zkNodes: localhost
+          defaultZkPort: 2181
+          offsetUpdateTimeWindow: 0
+          autoCreateTopics: true
+          autoAddPartitions: true
+          minPartitionCount: 2
+          replicationFactor: 2
+        producer:
+          messageKeyExpression: none
+        consumer:
+          autoRebalanceEnabled: false
+          autoCommitOffset: false
+          startOffset: earliest
+#  kafka:
+#    bootstrap-servers: 192.168.163.210:9092
+#    zookeeper:
+#      connect-string: 192.168.163.210:2181
