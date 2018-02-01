@@ -1,0 +1,19 @@
+version: '2'
+services:
+#ActiveMQ Artemis 1.5.5
+  artemis:
+    image: "rvromero/activemq-artemis:1.5.5"
+    environment:
+      ARTEMIS_MIN_MEMORY: "1512M"
+      ARTEMIS_MAX_MEMORY: "3048M"
+      ARTEMIS_USERNAME: "user"
+      ARTEMIS_PASSWORD: "password"
+      ENABLE_JMX: "true"
+      JMX_PORT: 1199
+      JMX_RMI_PORT: 1198
+
+    ports:
+      - "8161:8161"
+      - "61616:61616"
+    labels:
+      NAME: "activemqartemis"
