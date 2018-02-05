@@ -1,9 +1,9 @@
 server:
   port: 0
-
 spring:
   profiles:
     active: rabbit
+debug: false
 
 ---
 spring:
@@ -37,9 +37,9 @@ spring:
               exchangeType: topic
 
   rabbitmq:
-    host: 192.168.163.210
-    password: rabbitmq
-    username: rabbitmq
+    host: localhost
+#    password: rabbitmq
+#    username: rabbitmq
 
 ---
 spring:
@@ -66,7 +66,7 @@ spring:
           autoCreateTopics: true
           autoAddPartitions: true
           minPartitionCount: 2
-          replicationFactor: 2
+          replicationFactor: 1
         producer:
           messageKeyExpression: none
         consumer:
@@ -77,3 +77,37 @@ spring:
 #    bootstrap-servers: 192.168.163.210:9092
 #    zookeeper:
 #      connect-string: 192.168.163.210:2181
+
+---
+spring:
+  profiles: artemis
+  cloud:
+    stream:
+      bindings:
+
+        input :
+         destination: jms.queue.sourceArtemis
+         binder: artemis
+         group: text
+#         consumer:
+#          partitioned: true
+#          concurrency: 1
+
+        output :
+         destination: jms.queue.transformedArtemis
+         binder: artemis
+#         group: transformedText
+         producer:
+           partitionCount: 2
+#           requiredGroups: transformedText
+
+      artemis:
+        binder:
+          transport: org.apache.activemq.artemis.core.remoting.impl.netty.NettyConnectorFactory
+
+  artemis:
+    mode: native
+    host: 192.168.163.210
+    user: artemis
+    password: simetraehcapa
+    port: 61616

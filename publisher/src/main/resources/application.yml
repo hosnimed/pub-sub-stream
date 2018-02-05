@@ -1,6 +1,7 @@
 spring:
   profiles:
     active: rabbit
+debug: false
 
 ---
 spring:
@@ -24,9 +25,9 @@ spring:
               exchangeDurable: true
               exchangeType: topic
   rabbitmq:
-    host: 192.168.163.210
-    password: rabbitmq
-    username: rabbitmq
+    host: localhost
+#    username: rabbitmq
+#    password: rabbitmq
 
 
 server:
@@ -44,9 +45,9 @@ spring:
          group: text
       kafka:
         binder:
-          brokers: 192.168.163.210
+          brokers: localhost
           defaultBrokerPort: 9092
-          zkNodes: 192.168.163.210
+          zkNodes: localhost
           defaultZkPort: 2181
           offsetUpdateTimeWindow: 10000
           autoCreateTopics: true
@@ -69,23 +70,26 @@ spring:
   cloud:
     stream:
       bindings:
-        source :
-         destination: sourceArtemis
-         binder: artemis
-         group: text
+
+        source:
+          destination: jms.queue.sourceArtemis
+          binder: artemis
+#          group: text
+
+        producer:
+          partitionCount: 2
+#          requiredGroups: text
+
       artemis:
         binder:
-          brokers: localhost; 192.168.163.210
-          defaultBrokerPort: 9092
-          zkNodes: localhost; 192.168.163.210
-          defaultZkPort: 2181
-          offsetUpdateTimeWindow: 10000
-        producer:
-          messageKeyExpression: none
+          transport: org.apache.activemq.artemis.core.remoting.impl.netty.NettyConnectorFactory
 
-#  kafka:
-#    bootstrap-servers: 192.168.163.210:9092
-#    zookeeper:
-#      connect-string: 192.168.163.210:2181
+  artemis:
+    mode: native
+    host: localhost
+    user: user
+    password: password
+    port: 61616
+
 server:
-  port: 8082
+  port: 8083
