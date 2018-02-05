@@ -1,19 +1,65 @@
 version: '2'
 services:
-#ActiveMQ Artemis 1.5.5
-  artemis:
-    image: "rvromero/activemq-artemis:1.5.5"
+#Zookeeper
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    ports:
+      - "2181:2181"
+    restart: always
+#Kafka
+  kafka:
+    image: wurstmeister/kafka:0.10.2.0
+    ports:
+      - "9092"
     environment:
-      ARTEMIS_MIN_MEMORY: "1512M"
-      ARTEMIS_MAX_MEMORY: "3048M"
-      ARTEMIS_USERNAME: "user"
-      ARTEMIS_PASSWORD: "password"
-      ENABLE_JMX: "true"
-      JMX_PORT: 1199
-      JMX_RMI_PORT: 1198
+      KAFKA_ADVERTISED_HOST_NAME: "localhost"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_PORT: "9092"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      # KAFKA_CREATE_TOPICS: "sourceKafka:1:1"
+      # KAFKA_CREATE_TOPICS: "transformedKafka:1:1"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - zookeeper
+    links:
+      - zookeeper:zookeeper
+
+#RabbitMQ
+  rabbit:
+    image: "rabbitmq:3-management"
+    hostname: "rabbit"
+    environment:
+#      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+#      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    labels:
+      NAME: "rabbitmq"
+#ActiveMQ Artemis 2.4.0
+  artemis:
+    image: xms40/activemq-artemis-hawtio
+    environment:
+      -ARTEMIS_USERNAME: user
+      -ARTEMIS_PASSWORD: password
 
     ports:
       - "8161:8161"
       - "61616:61616"
-    labels:
-      NAME: "activemqartemis"
+      - "5445:5445"
+#      - "5672:5672"
+      - "1883:1883"
+      - "61613:61613"
+#    deploy:
+#      replicas: 4
+#      update_config:
+#        parallelism: 2
+#        delay: 10s
+#      restart_policy:
+#        condition: on-failure
+    volumes:
+     - "/var/lib/artemis/data"
+     - "/var/lib/artemis/etc"
