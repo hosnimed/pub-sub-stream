@@ -5,6 +5,7 @@
 - The project is configured to run with profiles :
 + `rabbit` (Rabbit Binder)
 + `kafka` (Kafka Binder)
++ `artemis` (ActiveMQ Artemis Binder)
 
 # Technologies
 - Java 8
